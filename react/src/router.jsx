@@ -5,7 +5,6 @@ import CreateListing from "./views/CreateListing";
 import Signup from "./views/Signup";
 import Login from "./views/Login";
 import AuthLayout from "./components/AuthLayout";
-import DashboardLayout from "./components/DashboardLayout";
 import WebsiteLayout from "./components/WebsiteLayout";
 
 const router = createBrowserRouter([
@@ -21,12 +20,6 @@ const router = createBrowserRouter([
         path: "view",
         element: <ListingDetail />,
       },
-    ],
-  },
-  {
-    path: "/dashboard",
-    element: <DashboardLayout />,
-    children: [
       {
         path: "create",
         element: <CreateListing />,

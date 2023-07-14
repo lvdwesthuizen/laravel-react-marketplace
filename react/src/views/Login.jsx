@@ -1,6 +1,43 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import axiosClient from "../axios.js";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Login() {
+  const { setCurrentUser, setUserToken } = useStateContext();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState({ __html: "" });
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setError({ __html: "" });
+
+    axiosClient
+      .post("/login", {
+        email,
+        password,
+      })
+      .then(({ data }) => {
+        setCurrentUser(data.user);
+        setUserToken(data.token);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        if (error.response.data.error) {
+          setError({ __html: error.response.data.error });
+        }
+        if (error.response.data.errors) {
+          const errors = Object.values(error.response.data.errors).reduce(
+            (accum, next) => [...accum, ...next],
+            []
+          );
+          setError({ __html: errors.join("<br>") });
+        }
+        console.error(error.message);
+      });
+  };
+
   return (
     <>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -8,7 +45,13 @@ export default function Login() {
           Log in to your account
         </h2>
       </div>
-      <form className="space-y-6" action="#" method="POST">
+      {error.__html && (
+        <div
+          className="bg-red-500 rounded py-2 px-3 text-white mb-4"
+          dangerouslySetInnerHTML={error}
+        ></div>
+      )}
+      <form onSubmit={onSubmit} className="space-y-6" action="#" method="POST">
         <div>
           <label
             htmlFor="email"
@@ -23,7 +66,9 @@ export default function Login() {
               type="email"
               autoComplete="email"
               required
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
         </div>
@@ -36,14 +81,6 @@ export default function Login() {
             >
               Password
             </label>
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-semibold text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot password?
-              </a>
-            </div>
           </div>
           <div className="mt-2">
             <input
@@ -52,7 +89,9 @@ export default function Login() {
               type="password"
               autoComplete="current-password"
               required
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
         </div>

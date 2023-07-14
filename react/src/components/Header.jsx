@@ -1,16 +1,30 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Link, Navigate } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios";
 
 const navigation = [
-  { name: "Search properties", href: "/search" },
-  { name: "Property Advice", href: "#" },
-  { name: "Real Estate Projects", href: "#" },
-  { name: "News", href: "#" },
+  { name: "For Sale", href: "#" },
+  { name: "Property", href: "#" },
+  { name: "Jobs", href: "#" },
+  { name: "Services", href: "#" },
+  { name: "Pets", href: "#" },
+  { name: "Community", href: "#" },
 ];
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { userToken, setCurrentUser, setUserToken } = useStateContext();
+
+  const logout = (e) => {
+    e.preventDefault();
+    axiosClient.post("/logout").then(() => {
+      setCurrentUser({});
+      setUserToken(null);
+    });
+  };
 
   return (
     <header className="bg-white">
@@ -40,18 +54,37 @@ export default function Header() {
           ))}
         </div>
         <div className="flex flex-1 items-center justify-end gap-x-6">
-          <a
-            href="/auth/login"
-            className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
-          >
-            Log in
-          </a>
-          <a
-            href="/auth/signup"
+          {!userToken ? (
+            <>
+              <Link
+                to="/auth/login"
+                className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
+              >
+                Log in
+              </Link>
+              <Link
+                to="/auth/signup"
+                className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
+              >
+                Sign up
+              </Link>
+            </>
+          ) : (
+            <Link
+              to="#"
+              onClick={logout}
+              className="hidden lg:block lg:text-sm lg:font-semibold lg:leading-6 lg:text-gray-900"
+            >
+              Log out
+            </Link>
+          )}
+
+          <Link
+            to="/create"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Sign up
-          </a>
+            Create listing
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button

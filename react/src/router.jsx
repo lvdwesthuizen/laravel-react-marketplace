@@ -6,6 +6,7 @@ import Signup from "./views/Signup";
 import Login from "./views/Login";
 import AuthLayout from "./components/AuthLayout";
 import WebsiteLayout from "./components/WebsiteLayout";
+import NotFound from "./views/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
         element: <ListingSearch />,
       },
       {
-        path: "view",
+        path: "view/:listingId",
         element: <ListingDetail />,
       },
       {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         element: <Login />,
       },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

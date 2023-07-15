@@ -18,11 +18,13 @@ class ListingController extends Controller
      */
     public function index(Request $request)
     {   
-        $query = $request->query;
-        // return Listing::where('title', 'like', $query)->orderBy('created_at', 'desc')->paginate(10);
-        return ListingResource::collection(
-            Listing::where('title', 'like', $query)->orderBy('created_at', 'desc')->paginate(10)
-        );
+        $string = strtolower($request->string);
+        if(isset($string) && strlen($string) > 0){
+            $listings = Listing::where('title','like','%'.$string.'%')->orWhere('category','like',$string.'%')->get();
+        } else {
+            $listings = [];
+        }
+        return response()->json($listings);
     }
 
     /**

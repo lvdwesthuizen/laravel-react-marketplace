@@ -24,6 +24,8 @@ Route::post('/signup', [AuthController::class, 'signup']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/listings', [ListingController::class, 'index']);
+
 Route::post('/listing/create', [ListingController::class, 'store']);
 
 Route::get('/listing/view', [ListingController::class, 'show']);

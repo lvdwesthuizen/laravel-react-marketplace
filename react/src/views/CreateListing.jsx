@@ -37,7 +37,7 @@ export default function CreateListing() {
     date_offline: new Date(),
     price: "",
     currency: currencies[0],
-    category: "",
+    category: {},
     image_url: null,
     first_name: "",
     last_name: "",
@@ -107,6 +107,7 @@ export default function CreateListing() {
 
   const resetForm = () => {
     setReset(true);
+    setError("");
     setListing({
       user_id: "",
       title: "",
@@ -122,7 +123,7 @@ export default function CreateListing() {
       },
       price: "",
       currency: {},
-      category: "",
+      category: {},
       image_url: null,
       first_name: "",
       last_name: "",

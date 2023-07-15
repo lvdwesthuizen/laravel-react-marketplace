@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
 
 const navigation = [
+  { name: "Search Listings", href: "/search" },
   { name: "For Sale", href: "#" },
   { name: "Property", href: "#" },
   { name: "Jobs", href: "#" },
   { name: "Services", href: "#" },
-  { name: "Pets", href: "#" },
-  { name: "Community", href: "#" },
 ];
 
 export default function Header() {
@@ -78,7 +77,6 @@ export default function Header() {
               Log out
             </Link>
           )}
-
           <Link
             to="/create"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -114,12 +112,12 @@ export default function Header() {
                 alt=""
               />
             </a>
-            <a
-              href="#"
+            <Link
+              to="/create"
               className="ml-auto rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Sign up
-            </a>
+              Create Listing
+            </Link>
             <button
               type="button"
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
@@ -143,12 +141,30 @@ export default function Header() {
                 ))}
               </div>
               <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  Log in
-                </a>
+                {!userToken ? (
+                  <>
+                    <Link
+                      to="/auth/login"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Log in
+                    </Link>
+                    <Link
+                      to="/auth/signup"
+                      className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    >
+                      Sign up
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    to="#"
+                    onClick={logout}
+                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    Log out
+                  </Link>
+                )}
               </div>
             </div>
           </div>

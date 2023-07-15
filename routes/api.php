@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ListingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,7 @@ Route::middleware('auth:sanctum')->group(function() {
 Route::post('/signup', [AuthController::class, 'signup']);
 
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/listing/create', [ListingController::class, 'store']);
+
+Route::get('/listing/view', [ListingController::class, 'show']);

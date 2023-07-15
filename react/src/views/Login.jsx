@@ -23,7 +23,6 @@ export default function Login() {
         setUserToken(data.token);
       })
       .catch((error) => {
-        console.log(error.response.data);
         if (error.response.data.error) {
           setError({ __html: error.response.data.error });
         }

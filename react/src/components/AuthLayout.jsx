@@ -7,7 +7,7 @@ export default function AuthLayout() {
   const { userToken } = useStateContext();
 
   if (userToken) {
-    return <Navigate to="/" />;
+    return <Navigate to="/create" />;
   }
 
   return (

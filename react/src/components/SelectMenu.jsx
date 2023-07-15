@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
@@ -9,6 +9,19 @@ function classNames(...classes) {
 
 export default function SelectMenu(props) {
   const [selected, setSelected] = useState(props.list[0]);
+
+  useEffect(() => {
+    props.handleChange(props.name, selected.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
+
+  useEffect(() => {
+    if (props.reset) {
+      setSelected(props.list[0]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.reset]);
+
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (

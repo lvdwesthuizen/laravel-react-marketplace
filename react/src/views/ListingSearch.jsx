@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Listing from "../components/Listing";
+import ListItem from "../components/ListItem";
 import Search from "../components/Search";
 import axiosClient from "../axios.js";
 
@@ -33,7 +33,7 @@ export default function ListingSearch() {
       <div className="mx-auto max-w-3xl">
         <Search handleChange={updateSearchQuery} query={searchQuery} />
         {listings.map((listing) => (
-          <Listing key={listing.id} listing={listing} />
+          <ListItem key={listing.id} listing={listing} />
         ))}
       </div>
     </div>

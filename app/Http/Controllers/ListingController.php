@@ -48,17 +48,6 @@ class ListingController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Request $request, $id)
-    {
-        // single listing page
-    }
-
-    /**
      * Save the image in the local file system and return saved image path
      *
      * @param  $image

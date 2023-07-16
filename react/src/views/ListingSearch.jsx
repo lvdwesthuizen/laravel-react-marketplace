@@ -28,10 +28,33 @@ export default function ListingSearch() {
       });
   };
 
+  const sortListings = (option) => {
+    let copiedArr = [...listings];
+    if (option === "lowest price") {
+      copiedArr.sort((a, b) => {
+        return a.price - b.price;
+      });
+    } else if (option === "highest price") {
+      copiedArr.sort((a, b) => {
+        return b.price - a.price;
+      });
+    } else {
+      // most recent
+      copiedArr.sort((a, b) => {
+        return Date.parse(a.date_online) - Date.parse(b.date_online);
+      });
+    }
+    setListings(copiedArr);
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-3xl">
-        <Search handleChange={updateSearchQuery} query={searchQuery} />
+        <Search
+          handleChange={updateSearchQuery}
+          query={searchQuery}
+          sort={sortListings}
+        />
         {listings.map((listing) => (
           <ListItem key={listing.id} listing={listing} />
         ))}

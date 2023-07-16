@@ -55,6 +55,16 @@ export default function ListingDetail() {
           <div className="my-2 space-y-1 text-base text-gray-500">
             {data.description}
           </div>
+          <div className="text-sm text-gray-300 mt-4 italic">
+            <span>Listing expires: </span>
+            <time dateTime={data.date_offline}>
+              {new Date(data.date_offline).toLocaleDateString("en-us", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </div>
         </div>
         {/* sidebar */}
         <div className="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5">

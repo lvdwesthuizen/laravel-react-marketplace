@@ -44,6 +44,16 @@ export default function ListItem({ listing }) {
           </p>
           <p className="font-medium text-gray-900 mb-2">{listing.slug}</p>
           <p className="mt-2 text-sm text-gray-500">{listing.description}</p>
+          <p className="text-sm text-gray-300 mt-4 italic">
+            <span>Published: </span>
+            <time dateTime={listing.date_online}>
+              {new Date(listing.date_online).toLocaleDateString("en-us", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </p>
         </div>
       </div>
     </Link>

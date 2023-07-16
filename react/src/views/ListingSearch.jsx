@@ -1,15 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ListItem from "../components/ListItem";
 import Search from "../components/Search";
 import axiosClient from "../axios.js";
+import WebsiteLayout from "../components/WebsiteLayout";
 
 export default function ListingSearch() {
   const [listings, setListings] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
-  // useEffect(() => {
-  //   getListings();
-  // }, [searchQuery]);
 
   const updateSearchQuery = (e) => {
     let string = e.target.value;
@@ -48,17 +45,19 @@ export default function ListingSearch() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-3xl">
-        <Search
-          handleChange={updateSearchQuery}
-          query={searchQuery}
-          sort={sortListings}
-        />
-        {listings.map((listing) => (
-          <ListItem key={listing.id} listing={listing} />
-        ))}
+    <WebsiteLayout>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <Search
+            handleChange={updateSearchQuery}
+            query={searchQuery}
+            sort={sortListings}
+          />
+          {listings.map((listing) => (
+            <ListItem key={listing.id} listing={listing} />
+          ))}
+        </div>
       </div>
-    </div>
+    </WebsiteLayout>
   );
 }

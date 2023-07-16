@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import { useRouteError } from "react-router-dom";
 
 export default function NotFound() {
+  const error = useRouteError();
   return (
     <>
       <main className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -10,8 +12,14 @@ export default function NotFound() {
             Page not found
           </h1>
           <p className="mt-6 text-base leading-7 text-gray-600">
-            Sorry, we couldn’t find the page you’re looking for.
+            Sorry, an unexected error has occurred.
           </p>
+          {error && (
+            <p className="mt-6 text-sm text-gray-400">
+              <i>Error: {error.statusText || error.message}</i>
+            </p>
+          )}
+
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               to="/search"

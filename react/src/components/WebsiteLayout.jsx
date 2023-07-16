@@ -1,15 +1,13 @@
+/* eslint-disable react/prop-types */
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet } from "react-router-dom";
 
-export default function WebsiteLayout() {
+export default function WebsiteLayout({ children }) {
   return (
-    <div>
+    <>
       <Header />
-      <div className="container mx-auto my-10">
-        <Outlet />
-      </div>
+      <div className="container mx-auto my-10">{children}</div>
       <Footer />
-    </div>
+    </>
   );
 }

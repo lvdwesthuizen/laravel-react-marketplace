@@ -8,6 +8,7 @@ import axiosClient from "../axios.js";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import WebsiteLayout from "../components/WebsiteLayout";
+import FormInput from "../components/FormInput";
 
 const categories = [
   { id: "furniture", label: "Furniture" },
@@ -27,7 +28,6 @@ export default function CreateListing() {
   const { userToken, currentUser } = useStateContext();
 
   const [error, setError] = useState("");
-  const [reset, setReset] = useState(false);
 
   const [listing, setListing] = useState({
     user_id: "",
@@ -70,6 +70,7 @@ export default function CreateListing() {
     e.preventDefault();
 
     const payload = { ...listing };
+
     if (payload.image) {
       payload.image = payload.image_url;
     }
@@ -82,6 +83,9 @@ export default function CreateListing() {
     if (payload.date_offline) {
       payload.date_offline = payload.date_offline.startDate;
     }
+
+    payload.mobile = payload.mobile.replace(" ", "");
+    payload.mobile = payload.mobile.replace("+", "");
 
     if (currentUser && typeof currentUser === "string") {
       payload.user_id = JSON.parse(currentUser).id;
@@ -98,7 +102,7 @@ export default function CreateListing() {
         if (err && err.response) {
           setError(err.response.data.message);
         }
-        console.error(err, err.response);
+        console.error(err.response);
       });
   };
 
@@ -106,36 +110,14 @@ export default function CreateListing() {
     setListing({ ...listing, [name]: value });
   };
 
-  const resetForm = () => {
-    setReset(true);
-    setError("");
-    setListing({
-      user_id: "",
-      title: "",
-      slug: "",
-      description: "",
-      date_online: {
-        startDate: null,
-        endDate: null,
-      },
-      date_offline: {
-        startDate: null,
-        endDate: null,
-      },
-      price: "",
-      currency: {},
-      category: {},
-      image_url: null,
-      first_name: "",
-      last_name: "",
-      email: "",
-      mobile: "",
-    });
-  };
-
   return (
     <WebsiteLayout>
-      <form className="mx-20" action="#" method="POST" onSubmit={onSubmit}>
+      <form
+        className="mx-10 sm:mx-20"
+        action="#"
+        method="POST"
+        onSubmit={onSubmit}
+      >
         <div className="space-y-12 sm:space-y-16">
           <div>
             <h2 className="text-base font-semibold leading-7 text-gray-900">
@@ -151,53 +133,21 @@ export default function CreateListing() {
             )}
 
             <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Title
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                      type="text"
-                      name="title"
-                      id="title"
-                      required
-                      value={listing.title}
-                      onChange={(e) =>
-                        setListing({ ...listing, title: e.target.value })
-                      }
-                      className="block flex-1 border-0 bg-transparent p-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    />
-                  </div>
-                </div>
-              </div>
+              <FormInput
+                name="title"
+                type="text"
+                value={listing.title}
+                handleChange={handleChange}
+                minLength={30}
+              />
 
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="slug"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Slug
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                      type="text"
-                      name="slug"
-                      id="slug"
-                      required
-                      className="block flex-1 border-0 bg-transparent p-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      value={listing.slug}
-                      onChange={(e) =>
-                        setListing({ ...listing, slug: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
+              <FormInput
+                name="slug"
+                type="text"
+                value={listing.slug}
+                handleChange={handleChange}
+                minLength={30}
+              />
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label
@@ -217,6 +167,8 @@ export default function CreateListing() {
                     onChange={(e) =>
                       setListing({ ...listing, description: e.target.value })
                     }
+                    minLength={100}
+                    maxLength={500}
                   />
                 </div>
               </div>
@@ -263,29 +215,13 @@ export default function CreateListing() {
                 </div>
               </div>
 
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="price"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Price
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                    <input
-                      type="number"
-                      name="price"
-                      id="price"
-                      required
-                      className="block flex-1 border-0 bg-transparent p-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                      value={listing.price || ""}
-                      onChange={(e) =>
-                        setListing({ ...listing, price: e.target.value })
-                      }
-                    />
-                  </div>
-                </div>
-              </div>
+              <FormInput
+                name="price"
+                type="number"
+                value={listing.price}
+                handleChange={handleChange}
+                minLength={1}
+              />
 
               <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                 <label
@@ -298,7 +234,6 @@ export default function CreateListing() {
                   name="currency"
                   list={currencies}
                   handleChange={handleChange}
-                  reset={reset}
                 />
               </div>
 
@@ -391,93 +326,38 @@ export default function CreateListing() {
               Personal Information
             </h2>
             <div className="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="first-name"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  First name
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="text"
-                    name="first-name"
-                    id="first-name"
-                    required
-                    className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={listing.first_name || ""}
-                    onChange={(e) =>
-                      setListing({ ...listing, first_name: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
+              <FormInput
+                name="first_name"
+                type="text"
+                value={listing.first_name}
+                handleChange={handleChange}
+                minLength={3}
+              />
 
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="last-name"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Last name
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    required
-                    className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={listing.last_name || ""}
-                    onChange={(e) =>
-                      setListing({ ...listing, last_name: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
+              <FormInput
+                name="last_name"
+                type="text"
+                value={listing.last_name}
+                handleChange={handleChange}
+                minLength={3}
+              />
 
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Email address
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    required
-                    className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={listing.email || ""}
-                    onChange={(e) =>
-                      setListing({ ...listing, email: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
+              <FormInput
+                name="email"
+                type="email"
+                value={listing.email}
+                handleChange={handleChange}
+                minLength={10}
+              />
 
-              <div className="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                <label
-                  htmlFor="mobile"
-                  className="block text-sm font-medium leading-6 text-gray-900 sm:pt-1.5"
-                >
-                  Mobile number
-                </label>
-                <div className="mt-2 sm:col-span-2 sm:mt-0">
-                  <input
-                    type="text"
-                    name="mobile"
-                    id="mobile"
-                    required
-                    className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                    value={listing.mobile || ""}
-                    onChange={(e) =>
-                      setListing({ ...listing, mobile: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
+              <FormInput
+                name="mobile"
+                type="text"
+                value={listing.mobile}
+                handleChange={handleChange}
+                minLength={9}
+                maxLength={10}
+              />
             </div>
           </div>
         </div>
@@ -486,7 +366,10 @@ export default function CreateListing() {
           <button
             type="button"
             className="text-sm font-semibold leading-6 text-gray-900"
-            onClick={resetForm}
+            onClick={() => {
+              window.location.reload();
+              window.scrollTo(0, 0);
+            }}
           >
             Reset form
           </button>

@@ -38,7 +38,7 @@ export default function ListingSearch() {
     } else {
       // most recent
       copiedArr.sort((a, b) => {
-        return Date.parse(a.date_online) - Date.parse(b.date_online);
+        return Date.parse(b.date_online) - Date.parse(a.date_online);
       });
     }
     setListings(copiedArr);

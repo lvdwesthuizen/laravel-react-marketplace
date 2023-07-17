@@ -11,6 +11,11 @@ const formatPhoneNumber = (str) => {
   return null;
 };
 
+const assetPath = (path) => {
+  const assetUrl = import.meta.env.VITE_API_BASE_URL;
+  return `${assetUrl}/${path}`;
+};
+
 export default function ListingDetail() {
   const location = useLocation();
   const { data } = location.state;
@@ -18,24 +23,31 @@ export default function ListingDetail() {
   return (
     <WebsiteLayout>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl flex flex-col md:flex-row">
+        <div className="mx-auto max-w-4xl flex flex-col md:flex-row items-start">
           {/* main */}
           <div className="mb-4 md:mr-4 md:mb-0 px-4 py-5 sm:p-6 flex flex-col border rounded-md border-gray-200">
-            <div className="mr-4 flex-shrink-0">
-              <svg
-                className="h-16 w-16 border border-gray-300 bg-white text-gray-300"
-                preserveAspectRatio="none"
-                stroke="currentColor"
-                fill="none"
-                viewBox="0 0 200 200"
-                aria-hidden="true"
-              >
-                <path
-                  vectorEffect="non-scaling-stroke"
-                  strokeWidth={1}
-                  d="M0 0l200 200M0 200L200 0"
+            <div className="flex-shrink-0">
+              {!data.image ? (
+                <svg
+                  className="h-16 w-16 border border-gray-300 bg-white text-gray-300"
+                  preserveAspectRatio="none"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 200 200"
+                  aria-hidden="true"
+                >
+                  <path
+                    vectorEffect="non-scaling-stroke"
+                    strokeWidth={1}
+                    d="M0 0l200 200M0 200L200 0"
+                  />
+                </svg>
+              ) : (
+                <img
+                  src={assetPath(data.image)}
+                  className="w-full object-cover rounded"
                 />
-              </svg>
+              )}
             </div>
             <h3 className="text-base font-semibold leading-7 text-gray-900 mt-4 mb-2">
               {data.title}

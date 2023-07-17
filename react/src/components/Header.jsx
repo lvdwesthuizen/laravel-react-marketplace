@@ -4,6 +4,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios";
+import logo from "@assets/images/cactus.svg";
 
 const navigation = [
   { name: "Search Listings", href: "/search" },
@@ -34,11 +35,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <Link href="/search" className="-m-1.5 p-1.5">
             <span className="sr-only">My Marketplace</span>
-            <img
-              className="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              alt=""
-            />
+            <img className="h-10 w-auto" src={logo} alt="logo" />
           </Link>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
@@ -81,7 +78,7 @@ export default function Header() {
             to="/create"
             className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Create listing
+            Create Listing
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -106,11 +103,7 @@ export default function Header() {
           <div className="flex items-center gap-x-6">
             <Link to="/search" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+              <img className="h-10 w-auto" src={logo} alt="logo" />
             </Link>
             <Link
               to="/create"

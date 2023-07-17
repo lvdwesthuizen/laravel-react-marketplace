@@ -3,8 +3,9 @@ Installation instructions:
 Clone the repo:
 git clone git@github.com:lvdwesthuizen/laravel-react-marketplace.git
 
-Install the project dependencies:
 cd react
+
+Install the project dependencies:
 npm install
 
 Create .env in the react folder and add this line of config: 

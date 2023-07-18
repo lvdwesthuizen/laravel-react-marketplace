@@ -12,7 +12,7 @@ Install the project dependencies:
 
 npm install
 
-Create .env in the react folder and add this line of config: 
+Rename .env.example to .env in the react folder. The .env file should have this line of config: 
 
 VITE_API_BASE_URL=http://localhost:8000
 

@@ -4,6 +4,8 @@ Clone the repo:
 
 git clone git@github.com:lvdwesthuizen/laravel-react-marketplace.git
 
+cd laravel-react-marketplace
+
 cd react
 
 Install the project dependencies:

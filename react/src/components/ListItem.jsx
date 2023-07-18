@@ -35,7 +35,7 @@ export default function ListItem({ listing }) {
         </div>
         {/* info */}
         <div>
-          <h4 className="text-lg font-bold mb-2">{listing.title}</h4>
+          <h4 className="text-lg font-bold my-2">{listing.title}</h4>
           <p className="mt-2 w-fit rounded-md bg-green-50 px-2 py-1 mb-2 text-xs font-medium text-green-600 ring-1 ring-inset ring-green-600/20">
             {listing.currency === "ZAR"
               ? "R"

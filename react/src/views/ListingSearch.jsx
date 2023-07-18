@@ -18,7 +18,9 @@ export default function ListingSearch() {
     axiosClient
       .get(`/listings?string=${query}`)
       .then((response) => {
-        setListings(response.data);
+        if (typeof response.data === "object") {
+          setListings(response.data);
+        }
       })
       .catch((err) => {
         console.error(err, err.response);

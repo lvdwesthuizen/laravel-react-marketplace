@@ -26,6 +26,8 @@ http://localhost:3000/
 
 In another terminal: 
 
+cd laravel-react-marketplace
+
 Install contents of Laravel vendor folder:
 
 composer install
